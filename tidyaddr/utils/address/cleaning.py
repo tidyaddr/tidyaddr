@@ -75,23 +75,22 @@ def cleanaddress_line(s):
 
 
 def cleanaddress(input_file,output_dir):
-    data = datatools.read_csv(input_file)
-
-
-    #preprocessing
-    data = datatools.rm_char("#",data)
-    data = datatools.rm_char(",",data)
-    data = datatools.rm_char(".",data)
-    data = datatools.to_lower(data)
-    data = datatools.clean_ws(data)
-
-    new_data = data[0].apply(cleanaddress_line)
-    new_data = new_data.apply(sub_address_fields, axis=1,reduce=False)
-    new_data["tidy_address"] = new_data.apply(cat_line, axis=1,reduce=True)
-    new_data["original"] = data[0]
-    #output
+    reader = datatools.read_csv(input_file, 100)
     output_file = output_dir + "/out.csv"
-    datatools.write_csv(new_data,output_file)
+    for data in reader:
+        #preprocessing
+        data = datatools.rm_char("#",data)
+        data = datatools.rm_char(",",data)
+        data = datatools.rm_char(".",data)
+        data = datatools.to_lower(data)
+        data = datatools.clean_ws(data)
+
+        new_data = data[0].apply(cleanaddress_line)
+        new_data = new_data.apply(sub_address_fields, axis=1,reduce=False)
+        new_data["tidy_address"] = new_data.apply(cat_line, axis=1,reduce=True)
+        new_data["original"] = data[0]
+        #output
+        datatools.write_csv(new_data,output_file,"a")
 
 def cat_line(series):
     tmp = series['num'] + ' ' + series['dir'] + ' ' + series['name'] + ' ' + series['sfx']
