@@ -1,4 +1,7 @@
 tidyaddr/__pycache__
 tidyaddr/__pycache__/*
-*/__pycache__/
+tidyaddr/utils/__pycache__
+tidyaddr/utils/__pycache__/*
+tidyaddr/utils/address__pycache__
+tidyaddr/utils/address__pycache__/*
 */__pycache__/*
