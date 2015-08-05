@@ -1,9 +1,9 @@
 import pandas, regex
-from tidycsv.utils.match import Match
-from tidycsv.utils.filter import Filter
-from tidycsv.utils.sub import Sub
-from tidycsv.utils import datatools
-from tidycsv.utils import address as addr
+from tidyaddr.utils.match import Match
+from tidyaddr.utils.filter import Filter
+from tidyaddr.utils.sub import Sub
+from tidyaddr.utils import datatools
+from tidyaddr.utils import address as addr
 
 def sub_address_fields(series):
     series['sfx'] = Sub.apply_subs(addr.sfx_subs,series['sfx'])

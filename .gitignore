@@ -1,2 +1,4 @@
 tidyaddr/__pycache__
 tidyaddr/__pycache__/*
+*/__pycache__/
+*/__pycache__/*
