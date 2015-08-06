@@ -76,13 +76,10 @@ def cleanaddress_line(s):
 
 def cleanaddress(input_file,output_dir):
     chunksize = 1000
-    nlines = subprocess.check_output('wc -l %s' % input_file, shell=True)
-    nlines = int(nlines.split()[0])
     reader = datatools.read_csv(input_file, chunksize)
     output_file = output_dir + "/out.csv"
     include_head = True
-    for i in range(0, nlines, chunksize):
-        data = pandas.read_csv(input_file,header=None,nrows=chunksize,skiprows=i,dtype="object")
+    for data in reader:
         #preprocessing
         data = datatools.rm_char("#",data)
         data = datatools.rm_char(",",data)
