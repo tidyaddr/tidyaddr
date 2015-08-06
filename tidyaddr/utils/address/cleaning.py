@@ -77,6 +77,7 @@ def cleanaddress_line(s):
 def cleanaddress(input_file,output_dir):
     reader = datatools.read_csv(input_file, 100)
     output_file = output_dir + "/out.csv"
+    include_head = True
     for data in reader:
         #preprocessing
         data = datatools.rm_char("#",data)
@@ -90,7 +91,8 @@ def cleanaddress(input_file,output_dir):
         new_data["tidy_address"] = new_data.apply(cat_line, axis=1,reduce=True)
         new_data["original"] = data[0]
         #output
-        datatools.write_csv(new_data,output_file,"a")
+        datatools.write_csv(new_data,output_file,"a",header=include_head)
+        include_head = False
 
 def cat_line(series):
     tmp = series['num'] + ' ' + series['dir'] + ' ' + series['name'] + ' ' + series['sfx']
