@@ -1,4 +1,4 @@
-import pandas, regex
+import pandas, regex, subprocess
 from tidyaddr.utils.match import Match
 from tidyaddr.utils.filter import Filter
 from tidyaddr.utils.sub import Sub
@@ -75,10 +75,14 @@ def cleanaddress_line(s):
 
 
 def cleanaddress(input_file,output_dir):
-    reader = datatools.read_csv(input_file, 100)
+    chunksize = 1000
+    nlines = subprocess.check_output('wc -l %s' % input_file, shell=True)
+    nlines = int(nlines.split()[0])
+    reader = datatools.read_csv(input_file, chunksize)
     output_file = output_dir + "/out.csv"
     include_head = True
-    for data in reader:
+    for i in range(0, nlines, chunksize):
+        data = pandas.read_csv(input_file,header=None,nrows=chunksize,skiprows=i,dtype="object")
         #preprocessing
         data = datatools.rm_char("#",data)
         data = datatools.rm_char(",",data)
